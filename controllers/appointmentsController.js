@@ -75,33 +75,22 @@ exports.getAppointmentById = async (req, res) => {
 // GET /api/appointments/stats: brojevi za pregled
 exports.getStats = async (req, res) => {
   try {
-    // Ukupan broj termina
     const totalAppointments = await pool.query(
       'SELECT COUNT(*) FROM appointments'
     );
 
-    // Broj termina po statusu
     const byStatus = await pool.query(`
       SELECT status, COUNT(*) AS count
       FROM appointments
       GROUP BY status
     `);
 
-    // Prihod (samo Completed termini)
     const revenue = await pool.query(`
       SELECT COALESCE(SUM(total_price), 0) AS total
       FROM appointments
       WHERE status = 'Completed'
     `);
 
-    // Termini danas
-    const today = await pool.query(`
-      SELECT COUNT(*) AS count
-      FROM appointments
-      WHERE DATE(appointment_time) = CURRENT_DATE
-    `);
-
-    // Ukupno klijenata
     const clientsCount = await pool.query(
       'SELECT COUNT(*) FROM clients'
     );
@@ -110,7 +99,6 @@ exports.getStats = async (req, res) => {
       total_appointments: parseInt(totalAppointments.rows[0].count),
       by_status: byStatus.rows,
       total_revenue: parseFloat(revenue.rows[0].total),
-      appointments_today: parseInt(today.rows[0].count),
       total_clients: parseInt(clientsCount.rows[0].count),
     });
   } catch (err) {
@@ -132,7 +120,6 @@ exports.createAppointment = async (req, res) => {
       status
     } = req.body;
 
-    // Validacija obaveznih polja
     if (!client_id || !vehicle_id || !service_id || !worker_id || !appointment_time) {
       return res.status(400).json({
         error: 'Klijent, vozilo, usluga, radnik i vreme su obavezni'
