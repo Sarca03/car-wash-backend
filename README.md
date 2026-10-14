@@ -1,48 +1,50 @@
-# Auto perionica: backend
+# Car wash app: backend
 
-REST API za aplikaciju auto perionice: klijenti, vozila, usluge, radnici i termini.
-Frontend je u posebnom repou: [car-wash-frontend](https://github.com/Sarca03/car-wash-frontend), uživo na https://car-wash-bogdan.netlify.app.
+REST API for a car wash management app: clients, vehicles, services, staff and bookings.
+The frontend is in a separate repo: [car-wash-frontend](https://github.com/Sarca03/car-wash-frontend), live at https://car-wash-bogdan.netlify.app.
 
-## Tehnologije
+The app was made for the local market, so the interface and API messages are in Serbian.
 
-Node.js, Express, PostgreSQL (Neon), `pg`, JWT, bcrypt. Server radi na Render-u.
+## Stack
 
-## Rute
+Node.js, Express, PostgreSQL (Neon), `pg`, JWT, bcrypt. The server runs on Render.
 
-Sve rute osim prijave traže `Authorization: Bearer <token>`.
+## Routes
 
-| Ruta | Šta radi |
+Every route except login needs `Authorization: Bearer <token>`.
+
+| Route | What it does |
 | --- | --- |
-| `POST /api/auth/login` | prijava, vraća JWT |
-| `GET /api/auth/me` | ulogovani korisnik |
-| `GET/POST/PUT/DELETE /api/clients` | klijenti |
-| `GET/POST/PUT/DELETE /api/vehicles` | vozila, plus `GET /api/vehicles/client/:id` |
-| `GET/POST/PUT/DELETE /api/services` | usluge |
-| `GET/POST/PUT/DELETE /api/workers` | radnici |
-| `GET/POST/PUT/DELETE /api/appointments` | termini |
-| `GET /api/appointments/stats` | brojevi za pregled; prihod se računa samo od završenih termina |
-| `PATCH /api/appointments/:id/status` | samo promena statusa |
+| `POST /api/auth/login` | login, returns a JWT |
+| `GET /api/auth/me` | the logged-in user |
+| `GET/POST/PUT/DELETE /api/clients` | clients |
+| `GET/POST/PUT/DELETE /api/vehicles` | vehicles, plus `GET /api/vehicles/client/:id` |
+| `GET/POST/PUT/DELETE /api/services` | services |
+| `GET/POST/PUT/DELETE /api/workers` | staff |
+| `GET/POST/PUT/DELETE /api/appointments` | bookings |
+| `GET /api/appointments/stats` | numbers for the dashboard; revenue counts only completed bookings |
+| `PATCH /api/appointments/:id/status` | status change only |
 
-## Bezbednost
+## Security
 
-- Lozinke su heširane bcrypt-om, token ističe posle 7 dana
-- Demo nalog može samo da čita: svaki POST, PUT, PATCH i DELETE dobija 403 (`middleware/readOnlyDemo.js`)
-- Javna registracija je zatvorena; uključuje se samo sa `ALLOW_REGISTER=true`, a nov nalog je uvek običan radnik
-- CORS pušta adresu frontenda (`FRONTEND_URL`) i `localhost:5173`/`5174` za lokalni razvoj
+- Passwords are hashed with bcrypt, tokens expire after 7 days
+- The demo account is read-only: every POST, PUT, PATCH and DELETE gets a 403 (`middleware/readOnlyDemo.js`)
+- Public sign-up is closed; it only turns on with `ALLOW_REGISTER=true`, and a new account is always a regular staff member
+- CORS allows the frontend address (`FRONTEND_URL`) and `localhost:5173`/`5174` for local development
 
-## Pokretanje
+## Running it
 
 ```bash
 npm install
 npm run dev
 ```
 
-Promenljive: `DATABASE_URL`, `JWT_SECRET`, `FRONTEND_URL`, `NODE_ENV=production` na serveru.
-Lokalno se umesto `DATABASE_URL` koriste `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` i `DB_NAME`.
-Sve promenljive su u `.env.example`.
+Variables: `DATABASE_URL`, `JWT_SECRET`, `FRONTEND_URL`, `NODE_ENV=production` on the server.
+Locally you can use `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` and `DB_NAME` instead of `DATABASE_URL`.
+All of them are listed in `.env.example`.
 
-Prvo `db/schema.sql`, pa `db/demo-data.sql`. Prvi pravi tabele, drugi puni bazu primerima.
+Run `db/schema.sql` first, then `db/demo-data.sql`. The first creates the tables, the second fills them with sample data.
 
-## Autor
+## Author
 
-Bogdan Šarčević, Užice
+Bogdan Šarčević, Užice, Serbia
