@@ -63,12 +63,10 @@ app.use('/api/services', authMiddleware, readOnlyDemo, servicesRoutes);
 app.use('/api/workers', authMiddleware, readOnlyDemo, workersRoutes);
 app.use('/api/appointments', authMiddleware, readOnlyDemo, appointmentsRoutes);
 
-// 404
 app.use((req, res) => {
   res.status(404).json({ error: 'Ruta ne postoji' });
 });
 
-// Error
 app.use((err, req, res, next) => {
   if (err.status === 403) {
     return res.status(403).json({ error: err.message });

@@ -48,7 +48,6 @@ exports.createClient = async (req, res) => {
   try {
     const { full_name, phone, email } = req.body;
 
-    // Validacija
     if (!full_name || !phone) {
       return res.status(400).json({ error: 'Ime i telefon su obavezni' });
     }
