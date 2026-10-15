@@ -82,7 +82,7 @@ JOIN workers  w ON w.full_name = a.worker;
 -- Javni demo nalog (lozinka: demo). Backend ga pušta samo da čita.
 DELETE FROM users WHERE username = 'demo';
 INSERT INTO users (username, email, password_hash, role)
-VALUES ('demo', 'demo@autoperionica.rs', '$2b$10$IMSFb1x5NSXA7a6y0hStnuK.LNzaCM5Mp6IUjZpKFLXKnT4Xf9EN2', 'worker');
+VALUES ('demo', 'demo@example.com', '$2b$10$IMSFb1x5NSXA7a6y0hStnuK.LNzaCM5Mp6IUjZpKFLXKnT4Xf9EN2', 'worker');
 
 COMMIT;
 

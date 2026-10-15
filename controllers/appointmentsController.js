@@ -214,16 +214,10 @@ exports.updateStatus = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
 
-    // U bazi su statusi na engleskom, u aplikaciji se prikazuju na srpskom
-    const statusLabels = {
-      Pending: 'na čekanju',
-      Confirmed: 'potvrđen',
-      Completed: 'završen',
-      Cancelled: 'otkazan',
-    };
-    if (!Object.keys(statusLabels).includes(status)) {
+    const STATUSES = ['Pending', 'Confirmed', 'Completed', 'Cancelled'];
+    if (!STATUSES.includes(status)) {
       return res.status(400).json({
-        error: `Status mora biti jedan od: ${Object.values(statusLabels).join(', ')}`
+        error: `Status mora biti jedan od: ${STATUSES.join(', ')}`
       });
     }
 

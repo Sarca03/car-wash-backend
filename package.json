@@ -13,7 +13,6 @@
     "postgresql"
   ],
   "author": "Bogdan Šarčević",
-  "license": "MIT",
   "type": "commonjs",
   "dependencies": {
     "bcrypt": "^5.1.1",

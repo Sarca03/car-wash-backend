@@ -11,11 +11,12 @@ Node.js, Express, PostgreSQL (Neon), `pg`, JWT, bcrypt. The server runs on Rende
 
 ## Routes
 
-Every route except login needs `Authorization: Bearer <token>`.
+Every route except login, register and the health check needs `Authorization: Bearer <token>`.
 
 | Route | What it does |
 | --- | --- |
 | `POST /api/auth/login` | login, returns a JWT |
+| `POST /api/auth/register` | sign-up, off unless `ALLOW_REGISTER=true` |
 | `GET /api/auth/me` | the logged-in user |
 | `GET/POST/PUT/DELETE /api/clients` | clients |
 | `GET/POST/PUT/DELETE /api/vehicles` | vehicles, plus `GET /api/vehicles/client/:id` |
